@@ -67,10 +67,11 @@
     ctx.strokeStyle = color; ctx.lineWidth = 1; ctx.setLineDash([3, 5]); ctx.stroke(); ctx.setLineDash([]);
   }
 
-  const ink = col('--ink') || '#1f2321', acc = col('--accent') || '#1f6f6b', acc2 = col('--accent-2') || '#c88a3c';
-  let a = 0.4, b = -0.35, last = 0;
+  let ink, acc, acc2, a = 0.4, b = -0.35;
 
   function frame(t) {
+    // re-read each frame so the light/dark toggle recolors the sphere
+    ink = col('--ink') || '#1f2321'; acc = col('--accent') || '#1f6f6b'; acc2 = col('--accent-2') || '#c88a3c';
     if (!reduce) { a += 0.0016; b = -0.35 + Math.sin(t / 9000) * 0.12; }
     ctx.clearRect(0, 0, W, H);
 

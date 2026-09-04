@@ -168,14 +168,6 @@ const PUBS = [
     "pdf": "https://arxiv.org/abs/2603.02781"
   },
   {
-    "title": "On the Security-Accuracy Trade-off of Hash-based Face Template Protections",
-    "authors": "Seunghun Paik, Minsu Kim, <b>Sunpill Kim</b>, Jae Hong Seo",
-    "venue": "Under review",
-    "venue_short": "Under review",
-    "year": 2024,
-    "category": "other"
-  },
-  {
     "title": "Formalization of the Schwartz-Zippel Lemma",
     "authors": "<b>Sunpill Kim</b>*, Yong Kiam Tan*",
     "venue": "Archive of Formal Proofs",
