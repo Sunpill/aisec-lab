@@ -1,27 +1,27 @@
 /* ============================================================
    AI Security Lab — stylesheet
-   Warm stone paper, soft ink, one deep-teal accent, amber for warmth.
+   Warm off-white paper, deep ink, one indigo accent, a little coral.
    Body: Pretendard (KO + EN). Display (EN headings): Fraunces.
    ============================================================ */
 
 :root {
-  --paper:      #f7f4ef;
-  --surface:    #fdfbf8;
-  --ink:        #1f2321;
-  --ink-2:      #4a524e;
-  --mute:       #6f7975;
-  --line:       #e6e1d9;
-  --line-2:     #d3cdc3;
-  --accent:     #1f6f6b;
-  --accent-ink: #185856;
-  --accent-soft:#e4efec;
-  --accent-2:   #c88a3c;
-  --accent-2-soft:#f6e9d5;
-  --top:        #fbefc9;
+  --paper:      #faf9f6;
+  --surface:    #ffffff;
+  --ink:        #1b1a2e;
+  --ink-2:      #454459;
+  --mute:       #7d7c90;
+  --line:       #e8e6e0;
+  --line-2:     #d9d6cf;
+  --accent:     #5646d6;
+  --accent-ink: #3d2fb3;
+  --accent-soft:#eeebff;
+  --accent-2:   #f0653f;
+  --accent-2-soft:#ffe9e1;
+  --top:        #fff4cc;
   --top-ink:    #6b4e00;
-  --band-bg:    #1f2321;
-  --band-fg:    #f7f4ef;
-  --band-mute:  #b9bfbb;
+  --band-bg:    #1b1a2e;
+  --band-fg:    #faf9f6;
+  --band-mute:  #b9b8cc;
 
   --sans: 'Pretendard Variable', Pretendard, 'Inter', -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', 'Noto Sans KR', system-ui, sans-serif;
   --serif: 'Fraunces', 'Iowan Old Style', Georgia, serif;
@@ -37,19 +37,19 @@
 
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --paper: #15191a; --surface: #1d2223; --ink: #ecefec; --ink-2: #c2c9c5; --mute: #8b9591;
-    --line: #2a3132; --line-2: #3a4344; --accent: #6cc3bc; --accent-ink: #8fd6cf;
-    --accent-soft: #1c3533; --accent-2: #e0a558; --accent-2-soft: #3a2d1c; --top: #3a3320; --top-ink: #ffd66b;
-    --band-bg: #1c2b2a; --band-fg: #ecefec; --band-mute: #a9b8b5;
+    --paper: #131320; --surface: #1b1b2c; --ink: #ecebf3; --ink-2: #c3c2d3; --mute: #8f8ea3;
+    --line: #2a2a3d; --line-2: #383850; --accent: #9d8fff; --accent-ink: #b7acff;
+    --accent-soft: #24224a; --accent-2: #ff8b66; --accent-2-soft: #3b271f; --top: #3a3320; --top-ink: #ffd66b;
+    --band-bg: #22214a; --band-fg: #ecebf3; --band-mute: #b0aecd;
     --shadow: 0 1px 2px rgba(0,0,0,.3), 0 12px 32px -12px rgba(0,0,0,.5);
     color-scheme: dark;
   }
 }
 :root[data-theme="dark"] {
-    --paper: #15191a; --surface: #1d2223; --ink: #ecefec; --ink-2: #c2c9c5; --mute: #8b9591;
-    --line: #2a3132; --line-2: #3a4344; --accent: #6cc3bc; --accent-ink: #8fd6cf;
-    --accent-soft: #1c3533; --accent-2: #e0a558; --accent-2-soft: #3a2d1c; --top: #3a3320; --top-ink: #ffd66b;
-    --band-bg: #1c2b2a; --band-fg: #ecefec; --band-mute: #a9b8b5;
+    --paper: #131320; --surface: #1b1b2c; --ink: #ecebf3; --ink-2: #c3c2d3; --mute: #8f8ea3;
+    --line: #2a2a3d; --line-2: #383850; --accent: #9d8fff; --accent-ink: #b7acff;
+    --accent-soft: #24224a; --accent-2: #ff8b66; --accent-2-soft: #3b271f; --top: #3a3320; --top-ink: #ffd66b;
+    --band-bg: #22214a; --band-fg: #ecebf3; --band-mute: #b0aecd;
     --shadow: 0 1px 2px rgba(0,0,0,.3), 0 12px 32px -12px rgba(0,0,0,.5);
     color-scheme: dark;
 }
@@ -236,7 +236,7 @@ section, .thread { max-width: var(--wrap); margin: 0 auto; padding: clamp(64px, 
 .join-band h2 .en { font-family: var(--serif); font-weight: 500; }
 .join-band p { color: var(--band-mute); max-width: 56ch; }
 .join-band em { color: var(--accent-2); }
-.join-band .btn { flex: none; background: var(--accent-2); color: #1f2321; box-shadow: none; }
+.join-band .btn { flex: none; background: var(--accent-2); color: #1b1a2e; box-shadow: none; }
 .join-band .btn:hover { background: #fff; }
 .page .join-band { margin-top: clamp(24px, 4vw, 48px); }
 
