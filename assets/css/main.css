@@ -313,7 +313,7 @@ section, .thread { max-width: var(--wrap); margin: 0 auto; padding: clamp(64px, 
 .week-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 28px; }
 .week-item b { display: block; font-size: 17px; padding-top: 14px; border-top: 2px solid var(--ink); margin-bottom: 8px; }
 .week-item p { font-size: 15px; color: var(--ink-2); }
-.pi-note { padding: 28px 32px; border-radius: var(--r); background: var(--accent-soft); font-size: 17.5px; line-height: 1.7; }
+.pi-note { margin-top: clamp(32px, 5vw, 48px); padding: 28px 32px; border-radius: var(--r); background: var(--accent-soft); font-size: 17.5px; line-height: 1.7; }
 .pi-note p { color: var(--ink); }
 .pi-note cite { display: block; margin-top: 12px; font-style: normal; font-size: 14px; color: var(--accent-ink); font-weight: 600; }
 .faq { border-top: 1px solid var(--line); }
