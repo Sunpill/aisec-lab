@@ -32,8 +32,8 @@
     return s;
   });
   // Each point's verdict: nearest center (region), how clear-cut it is (margin),
-  // and "no one" (region -1) when it is more than 90° from every identity.
-  const THRESH = Math.cos(Math.PI / 2);
+  // and "no one" (region -1) when it is more than 70° from every identity.
+  const THRESH = Math.cos(70 * Math.PI / 180);
   const region = [], margin = [];
   for (const p of pts) {
     const s = centers.map(cn => dot(p, cn)).map((v, i) => [v, i]).sort((x, y) => y[0] - x[0]);
