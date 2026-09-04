@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="ko" data-lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Publications · AI Security Lab</title>
+<meta name="description" content="Publications of the AI Security Lab at Sookmyung Women's University.">
+<link rel="icon" href="./assets/img/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="./assets/css/main.css">
+</head>
+<body>
+
+<header class="site-head">
+  <a class="brand" href="./">
+    <span class="mark" aria-hidden="true"></span>
+    <span class="brand-text"><b>AI Security Lab</b><small>Sookmyung Women's University</small></span>
+  </a>
+  <nav class="nav">
+    <a href="./research.html"><span class="ko">연구</span><span class="en">Research</span></a>
+    <a href="./publications.html"><span class="ko">논문</span><span class="en">Publications</span></a>
+    <a href="./people.html"><span class="ko">구성원</span><span class="en">People</span></a>
+    <a href="./news.html"><span class="ko">소식</span><span class="en">News</span></a>
+    <a class="cta" href="./join.html"><span class="ko">지원하기</span><span class="en">Join us</span></a>
+  </nav>
+  <div class="lang" role="group" aria-label="language">
+    <button data-set-lang="ko">KO</button><button data-set-lang="en">EN</button>
+  </div>
+  <button class="burger" data-nav-toggle aria-label="menu"><span></span><span></span></button>
+</header>
+
+<main class="page">
+
+<header class="page-head">
+  <p class="kicker"><span class="ko">논문</span><span class="en">Publications</span></p>
+  <h1><span class="ko">발표한 연구</span><span class="en">Published work</span></h1>
+  <p class="lede">
+    <span class="ko">굵은 이름은 연구실 구성원, 별표(*)는 공동 제1저자입니다. 노란 표시는 보안·AI 분야 최상위 학회와 저널입니다.</span>
+    <span class="en">Bold names are lab members; * marks equal contribution. Highlighted entries are top-tier security / AI venues.</span>
+  </p>
+  <div class="filter" data-pub-filter role="group" aria-label="filter">
+    <button data-cat="all" aria-pressed="true"><span class="ko">전체</span><span class="en">All</span></button>
+    <button data-cat="conf" aria-pressed="false"><span class="ko">학회</span><span class="en">Conferences</span></button>
+    <button data-cat="journal" aria-pressed="false"><span class="ko">저널</span><span class="en">Journals</span></button>
+    <button data-cat="other" aria-pressed="false"><span class="ko">프리프린트·기타</span><span class="en">Preprints &amp; other</span></button>
+  </div>
+</header>
+
+<div id="pubs"></div>
+
+</main>
+
+<footer class="site-foot">
+  <div class="foot-grid">
+    <div>
+      <b>AI Security Lab</b><br>
+      <span class="ko">숙명여자대학교 소프트웨어학부<br>서울특별시 용산구 청파로47길 100 (04310)</span>
+      <span class="en">Division of Software, Sookmyung Women's University<br>100 Cheongpa-ro 47-gil, Yongsan-gu, Seoul 04310, Korea</span>
+    </div>
+    <div>
+      <a href="mailto:ksp0352@sookmyung.ac.kr">ksp0352@sookmyung.ac.kr</a><br>
+      <a href="tel:+82-2-710-9115">+82-2-710-9115</a><br>
+      <a href="https://sunpillkim.com">sunpillkim.com</a>
+    </div>
+    <div class="foot-nav">
+      <a href="./research.html"><span class="ko">연구</span><span class="en">Research</span></a>
+      <a href="./publications.html"><span class="ko">논문</span><span class="en">Publications</span></a>
+      <a href="./people.html"><span class="ko">구성원</span><span class="en">People</span></a>
+      <a href="./join.html"><span class="ko">지원</span><span class="en">Join</span></a>
+    </div>
+  </div>
+  <p class="copy">© 2026 AI Security Lab, Sookmyung Women's University.</p>
+</footer>
+
+<script src="./assets/js/data.js"></script>
+<script src="./assets/js/site.js"></script>
+<script>renderPubs('#pubs');</script>
+</body>
+</html>

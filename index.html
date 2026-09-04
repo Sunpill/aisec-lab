@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="ko" data-lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI Security Lab · Sookmyung Women's University</title>
+<meta name="description" content="AI Security Lab at Sookmyung Women's University (Division of Software). Attacks and defenses for face and speaker recognition, biometric privacy, and generative-AI security. Led by Prof. Sunpill Kim.">
+<meta property="og:title" content="AI Security Lab · Sookmyung Women's University">
+<meta property="og:description" content="We study the mathematics and security of how AI recognizes people.">
+<link rel="icon" href="./assets/img/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="./assets/css/main.css">
+</head>
+<body>
+
+<header class="site-head">
+  <a class="brand" href="./">
+    <span class="mark" aria-hidden="true"></span>
+    <span class="brand-text"><b>AI Security Lab</b><small>Sookmyung Women's University</small></span>
+  </a>
+  <nav class="nav">
+    <a href="./research.html"><span class="ko">연구</span><span class="en">Research</span></a>
+    <a href="./publications.html"><span class="ko">논문</span><span class="en">Publications</span></a>
+    <a href="./people.html"><span class="ko">구성원</span><span class="en">People</span></a>
+    <a href="./news.html"><span class="ko">소식</span><span class="en">News</span></a>
+    <a class="cta" href="./join.html"><span class="ko">지원하기</span><span class="en">Join us</span></a>
+  </nav>
+  <div class="lang" role="group" aria-label="language">
+    <button data-set-lang="ko">KO</button><button data-set-lang="en">EN</button>
+  </div>
+  <button class="burger" data-nav-toggle aria-label="menu"><span></span><span></span></button>
+</header>
+
+<main>
+
+<section class="hero">
+  <div class="hero-text">
+    <p class="eyebrow"><span class="ko">숙명여자대학교 소프트웨어학부 · 2026년 9월 개설</span><span class="en">Division of Software · est. September 2026</span></p>
+    <h1>
+      <span class="ko">AI가 사람을 알아보는 방식,<br>그 <em>수학</em>과 <em>보안</em>을 연구합니다.</span>
+      <span class="en">We study the <em>mathematics</em> and <em>security</em><br>of how AI recognizes people.</span>
+    </h1>
+    <p class="lede">
+      <span class="ko">얼굴·음성 인식과 생성형 AI가 무엇을 흘리고, 어떻게 지킬 수 있는지. 공격과 방어를 함께 다루는 새 연구실입니다. 첫 학생들을 찾고 있습니다.</span>
+      <span class="en">What face and speaker recognizers and generative models leak, and how to defend them. A new lab working on both attack and defense. We are recruiting our first students.</span>
+    </p>
+    <div class="actions">
+      <a class="btn primary" href="./join.html"><span class="ko">연구실에 지원하기</span><span class="en">Join the lab</span></a>
+      <a class="btn ghost" href="./research.html"><span class="ko">무엇을 연구하나요?</span><span class="en">What we work on</span></a>
+    </div>
+  </div>
+  <div class="hero-art" aria-hidden="true">
+    <canvas id="hero-canvas"></canvas>
+    <div class="art-caption">
+      <span class="ko">인식 모델의 표현 공간. 점 하나가 한 사람의 얼굴, 두 점 사이의 각도가 "같은 사람인가"의 답입니다.</span>
+      <span class="en">A recognizer's representation space. Each point is a face; the angle between two points answers "same person?"</span>
+    </div>
+  </div>
+</section>
+
+<section class="venues reveal" aria-label="publication venues">
+  <p class="venues-label"><span class="ko">우리 연구가 발표된 곳</span><span class="en">Where our work appears</span></p>
+  <ul>
+    <li>IEEE S&amp;P</li><li>ACM CCS</li><li>NeurIPS</li><li>ICCV</li><li>ECCV</li><li>CVPR</li><li>IEEE TDSC</li><li>Pattern Recognition</li>
+  </ul>
+</section>
+
+<section class="pillars">
+  <div class="sec-head reveal">
+    <p class="kicker"><span class="ko">연구 주제</span><span class="en">Research</span></p>
+    <h2>
+      <span class="ko">하나의 질문에서 네 갈래로.</span>
+      <span class="en">One question, four threads.</span>
+    </h2>
+    <p class="sub">
+      <span class="ko">현대의 인식 모델은 입력을 고차원 구면 위의 점으로 보냅니다. 그 구면이 어떻게 나뉘어 있는지가 공격자가 무엇을 얻을 수 있고 방어자가 무엇을 숨길 수 있는지를 결정합니다. 우리는 이 기하학을 연구의 중심에 둡니다.</span>
+      <span class="en">Modern recognizers map inputs to points on a high-dimensional sphere. How that sphere is partitioned governs what an attacker can extract and what a defender can hide. We put this geometry at the center.</span>
+    </p>
+  </div>
+  <div class="pillar-grid">
+    <a class="pillar reveal" href="./research.html#attack">
+      <span class="num">01</span>
+      <h3><span class="ko">공격</span><span class="en">Attack</span></h3>
+      <p><span class="ko">인식 시스템이 돌려주는 점수만으로 얼굴을 복원하거나 다른 사람을 사칭할 수 있을까요? 질문을 미리 다 정해 두는 non-adaptive 공격으로, 상용 API까지 뚫었습니다.</span>
+         <span class="en">Can the scores a recognizer returns be enough to reconstruct a face or impersonate someone? Our non-adaptive attacks fix every query up front, and they break commercial APIs.</span></p>
+      <span class="tags">IEEE S&amp;P 2024 · NeurIPS 2025 · ACM CCS 2026</span>
+    </a>
+    <a class="pillar reveal" href="./research.html#protect">
+      <span class="num">02</span>
+      <h3><span class="ko">보호</span><span class="en">Protect</span></h3>
+      <p><span class="ko">비밀번호는 바꿀 수 있지만 얼굴은 바꿀 수 없습니다. 오차가 있는 생체 정보를 비밀키 없이 안전하게 저장하고 검색하는 방법을 오류정정부호와 동형암호로 만듭니다.</span>
+         <span class="en">You can change a password, not your face. We build ways to store and search noisy biometrics without a secret key, using error-correcting codes and homomorphic encryption.</span></p>
+      <span class="tags">CVPR 2021 · ICCV 2025 · IEEE TDSC 2025</span>
+    </a>
+    <a class="pillar reveal" href="./research.html#certify">
+      <span class="num">03</span>
+      <h3><span class="ko">보증</span><span class="en">Certify</span></h3>
+      <p><span class="ko">"지금 알려진 공격은 막는다"가 아니라 "이 범위 안의 어떤 공격도 못 뚫는다"를 수학적으로 증명합니다. 분류가 아닌 인식 문제에 맞게 증명 도구를 다시 짭니다.</span>
+         <span class="en">Not "we resist known attacks" but "no perturbation within this radius can flip the decision", proven. We rebuild certification tools for recognition rather than classification.</span></p>
+      <span class="tags">ECCV 2024 · IEEE T-BIOM 2025</span>
+    </a>
+    <a class="pillar reveal" href="./research.html#detect">
+      <span class="num">04</span>
+      <h3><span class="ko">탐지</span><span class="en">Detect</span></h3>
+      <p><span class="ko">딥페이크 탐지기와 vision-language 모델도 같은 기하학 위에 있습니다. 픽셀을 건드리지 않고 프롬프트만으로 탐지기를 속이는 방법과, 그것을 막는 방법을 함께 봅니다.</span>
+         <span class="en">Deepfake detectors and vision-language models sit on the same geometry. We study prompt-only evasion that never touches a pixel, and how to close that gap.</span></p>
+      <span class="tags">arXiv 2025 · <span class="ko">진행 중</span><span class="en">ongoing</span></span>
+    </a>
+  </div>
+</section>
+
+<section class="why">
+  <div class="sec-head reveal">
+    <p class="kicker"><span class="ko">왜 여기서</span><span class="en">Why here</span></p>
+    <h2><span class="ko">작은 연구실이 잘하는 것.</span><span class="en">What a small lab does well.</span></h2>
+  </div>
+  <div class="why-grid">
+    <div class="why-item reveal">
+      <h3><span class="ko">수학과 코드, 두 언어</span><span class="en">Two languages: math and code</span></h3>
+      <p><span class="ko">문제를 증명으로 풀고 실험으로 확인합니다. 어느 한쪽만으로는 보안 연구가 완성되지 않습니다.</span><span class="en">Problems are settled by proof and confirmed by experiment. Security research needs both.</span></p>
+    </div>
+    <div class="why-item reveal">
+      <h3><span class="ko">교수와 직접</span><span class="en">Directly with the PI</span></h3>
+      <p><span class="ko">신생 연구실이라 모든 학생이 교수와 매주 1:1로 만납니다. 첫 논문을 함께 씁니다.</span><span class="en">A new lab means every student meets the PI one-on-one, weekly. We write your first paper together.</span></p>
+    </div>
+    <div class="why-item reveal">
+      <h3><span class="ko">최고 학회에서 검증된 방법</span><span class="en">Methods proven at top venues</span></h3>
+      <p><span class="ko">IEEE S&amp;P, ACM CCS, NeurIPS, ICCV, ECCV, CVPR. 보안과 AI 양쪽의 최상위 학회에 발표해 온 연구 흐름을 그대로 잇습니다.</span><span class="en">IEEE S&amp;P, ACM CCS, NeurIPS, ICCV, ECCV, CVPR. You join a line of work that publishes at the top of both security and AI.</span></p>
+    </div>
+    <div class="why-item reveal">
+      <h3><span class="ko">국경 없는 협업</span><span class="en">Collaboration across borders</span></h3>
+      <p><span class="ko">싱가포르 A*STAR, 한양대 암호·알고리즘 연구실과 공동 연구를 이어갑니다. 해외 연구 경험의 기회가 열려 있습니다.</span><span class="en">Ongoing joint work with A*STAR (Singapore) and Hanyang's Cryptology &amp; Algorithm Lab. Opportunities abroad are real.</span></p>
+    </div>
+  </div>
+</section>
+
+<section class="news-preview">
+  <div class="sec-head row reveal">
+    <div>
+      <p class="kicker"><span class="ko">소식</span><span class="en">News</span></p>
+      <h2><span class="ko">최근 소식</span><span class="en">Recent news</span></h2>
+    </div>
+    <a class="more" href="./news.html"><span class="ko">전체 보기 →</span><span class="en">All news →</span></a>
+  </div>
+  <ul class="news-list reveal" id="news-home"></ul>
+</section>
+
+<section class="join-band reveal">
+  <div>
+    <h2><span class="ko">첫 번째 학생을 찾고 있습니다.</span><span class="en">We are looking for our first students.</span></h2>
+    <p><span class="ko">학부연구생, 석사, 박사 과정 모두 환영합니다. 보안을 몰라도, 수학이 두려워도 괜찮습니다. 궁금한 것이 많은 사람이면 충분합니다.</span>
+       <span class="en">Undergraduate researchers, master's and Ph.D. students are all welcome. No security background required. Curiosity is the prerequisite.</span></p>
+  </div>
+  <a class="btn primary" href="./join.html"><span class="ko">지원 안내 보기</span><span class="en">How to apply</span></a>
+</section>
+
+</main>
+
+<footer class="site-foot">
+  <div class="foot-grid">
+    <div>
+      <b>AI Security Lab</b><br>
+      <span class="ko">숙명여자대학교 소프트웨어학부<br>서울특별시 용산구 청파로47길 100 (04310)</span>
+      <span class="en">Division of Software, Sookmyung Women's University<br>100 Cheongpa-ro 47-gil, Yongsan-gu, Seoul 04310, Korea</span>
+    </div>
+    <div>
+      <a href="mailto:ksp0352@sookmyung.ac.kr">ksp0352@sookmyung.ac.kr</a><br>
+      <a href="tel:+82-2-710-9115">+82-2-710-9115</a><br>
+      <a href="https://sunpillkim.com">sunpillkim.com</a>
+    </div>
+    <div class="foot-nav">
+      <a href="./research.html"><span class="ko">연구</span><span class="en">Research</span></a>
+      <a href="./publications.html"><span class="ko">논문</span><span class="en">Publications</span></a>
+      <a href="./people.html"><span class="ko">구성원</span><span class="en">People</span></a>
+      <a href="./join.html"><span class="ko">지원</span><span class="en">Join</span></a>
+    </div>
+  </div>
+  <p class="copy">© 2026 AI Security Lab, Sookmyung Women's University.</p>
+</footer>
+
+<script src="./assets/js/data.js"></script>
+<script src="./assets/js/site.js"></script>
+<script src="./assets/js/hero.js"></script>
+<script>renderNews('#news-home', 5);</script>
+</body>
+</html>

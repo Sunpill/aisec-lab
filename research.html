@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="ko" data-lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Research · AI Security Lab</title>
+<meta name="description" content="Research at the AI Security Lab: non-adaptive attacks on recognition systems, biometric template protection, certified robustness, and deepfake / generative-AI security.">
+<link rel="icon" href="./assets/img/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="./assets/css/main.css">
+</head>
+<body>
+
+<header class="site-head">
+  <a class="brand" href="./">
+    <span class="mark" aria-hidden="true"></span>
+    <span class="brand-text"><b>AI Security Lab</b><small>Sookmyung Women's University</small></span>
+  </a>
+  <nav class="nav">
+    <a href="./research.html"><span class="ko">연구</span><span class="en">Research</span></a>
+    <a href="./publications.html"><span class="ko">논문</span><span class="en">Publications</span></a>
+    <a href="./people.html"><span class="ko">구성원</span><span class="en">People</span></a>
+    <a href="./news.html"><span class="ko">소식</span><span class="en">News</span></a>
+    <a class="cta" href="./join.html"><span class="ko">지원하기</span><span class="en">Join us</span></a>
+  </nav>
+  <div class="lang" role="group" aria-label="language">
+    <button data-set-lang="ko">KO</button><button data-set-lang="en">EN</button>
+  </div>
+  <button class="burger" data-nav-toggle aria-label="menu"><span></span><span></span></button>
+</header>
+
+<main class="page">
+
+<header class="page-head">
+  <p class="kicker"><span class="ko">연구</span><span class="en">Research</span></p>
+  <h1><span class="ko">표현 공간의 기하학이<br>AI 보안을 결정한다.</span><span class="en">The geometry of representation space<br>decides AI security.</span></h1>
+  <p class="lede">
+    <span class="ko">얼굴 인식기, 화자 인식기, vision-language 모델은 모두 입력을 고차원 구면 위의 점(embedding)으로 보냅니다. 두 점 사이의 각도가 "같은 사람인가"를 판단합니다. 우리는 이 구면이 어떻게 나뉘어 있는지를 연구의 첫 번째 대상으로 삼고, 거기서 공격·보호·보증·탐지 네 갈래를 뻗습니다.</span>
+    <span class="en">Face recognizers, speaker recognizers, and vision-language models all embed inputs as points on a high-dimensional sphere; the angle between two points decides "same person?". We treat the partition of that sphere as the primary object of study, and four threads grow from it: attack, protect, certify, detect.</span>
+  </p>
+</header>
+
+<article class="thread" id="attack">
+  <div class="thread-head">
+    <span class="num">01</span>
+    <h2><span class="ko">공격 · 점수만으로 얼굴을 복원하다</span><span class="en">Attack · Reconstructing a face from scores alone</span></h2>
+  </div>
+  <div class="thread-body">
+    <div class="prose">
+      <p><span class="ko">인식 시스템은 "이 두 이미지가 얼마나 닮았나"를 점수로 돌려줍니다. 기존 black-box 공격은 이 점수를 보고 다음 질문을 고르는 <em>adaptive</em> 방식으로 수만 번을 물었습니다. 우리는 질문을 전부 미리 정해 두는 <strong>non-adaptive</strong> 공격을 처음 제안했습니다. 사진 몇 장과 한 번의 일괄 질의만으로 대상의 얼굴을 복원하거나, 노이즈 없는 자연스러운 사칭 이미지를 만들어 냅니다. Amazon Rekognition, Tencent 같은 상용 API에서도 성공했습니다.</span>
+         <span class="en">A recognizer returns a score for "how similar are these two images?". Prior black-box attacks were <em>adaptive</em>: tens of thousands of queries, each chosen after seeing the last score. We introduced the first <strong>non-adaptive</strong> attacks, which fix all queries up front. With a handful of images and a single batch query they reconstruct a target's face, or generate a perturbation-free impersonation image, and they succeed against commercial APIs such as Amazon Rekognition and Tencent.</span></p>
+      <p><span class="ko">핵심은 기하학입니다. 구면 위에는 identity와 관련된 속성이 변하는 저차원 <em>attribute subspace</em>가 있고, 이 구조를 알면 놀랄 만큼 적은 정보로 충분합니다. 같은 틀은 얼굴을 넘어 화자 인식, 손바닥 인식, 금융 본인확인 시스템으로 그대로 확장됩니다.</span>
+         <span class="en">The key is geometry: the sphere contains low-dimensional <em>attribute subspaces</em> along which identity varies, and once that structure is known, surprisingly little information suffices. The same framework carries over to speaker recognition, palmprints, and the identity-verification stacks used in finance.</span></p>
+    </div>
+    <aside class="papers">
+      <p class="papers-label"><span class="ko">대표 논문</span><span class="en">Representative papers</span></p>
+      <ul>
+        <li><b>ACM CCS 2026</b> Casting the Net! Revisiting MasterFace Impersonation Attacks</li>
+        <li><b>NeurIPS 2025</b> Non-Adaptive Adversarial Face Generation</li>
+        <li><b>IEEE S&amp;P 2024</b> Scores Tell Everything about Bob: Non-adaptive Face Reconstruction</li>
+        <li><b>arXiv 2025</b> Scores Know Bob's Voice: Speaker Impersonation Attack</li>
+      </ul>
+    </aside>
+  </div>
+</article>
+
+<article class="thread" id="protect">
+  <div class="thread-head">
+    <span class="num">02</span>
+    <h2><span class="ko">보호 · 바꿀 수 없는 비밀번호를 지키다</span><span class="en">Protect · Guarding a password you cannot change</span></h2>
+  </div>
+  <div class="thread-body">
+    <div class="prose">
+      <p><span class="ko">비밀번호는 정확히 일치하지만 생체 정보는 잴 때마다 조금씩 다릅니다. 생체 인증의 장점은 사용자가 비밀을 들고 다니지 않아도 된다는 것이므로, <strong>비밀키 없이</strong> 오차가 있는 데이터를 인증하면서 원본을 숨겨야 합니다. 표준 암호학이 바로 적용되지 않는 이유입니다.</span>
+         <span class="en">Passwords match exactly; biometrics differ on every measurement. The whole point of a biometric is that the user carries no secret, so we must authenticate noisy data <strong>without a secret key</strong> while keeping the source private. Standard cryptography does not apply directly.</span></p>
+      <p><span class="ko">1:1 <em>verification</em>에서는 실수 오류정정부호와 해시를 결합해 매칭은 되지만 되돌릴 수는 없는 템플릿을 만듭니다(IronMask, SilverMask). 1:N <em>identification</em>에서는 서버가 긴 비밀키를 가질 수 있으므로 동형암호를 씁니다. 문제는 속도인데, IDFace는 효율적 인코딩과 거의 등거리인 변환으로 수백만 명 규모의 암호화 검색을 실용 범위로 끌어왔습니다. 그리고 "어떤 변환이 정말 되돌릴 수 없는가"를 따지는 분석(TDSC 2025)이 두 방향을 가로지릅니다.</span>
+         <span class="en">For 1:1 <em>verification</em> we combine real-valued error-correcting codes with hashing to get templates that match but cannot be inverted (IronMask, SilverMask). For 1:N <em>identification</em> the server may hold a long-lived key, so homomorphic encryption becomes viable; IDFace makes million-scale encrypted search practical via an efficient encoding and an almost-isometric transform. Cutting across both is the question of which transforms are actually irreversible (TDSC 2025).</span></p>
+    </div>
+    <aside class="papers">
+      <p class="papers-label"><span class="ko">대표 논문</span><span class="en">Representative papers</span></p>
+      <ul>
+        <li><b>ICCV 2025</b> IDFace: Efficient and Secure Identification for Face Images</li>
+        <li><b>IEEE TDSC 2025</b> On the Reversibility of LSH-based Biometric Template Protections</li>
+        <li><b>Pattern Recognition 2025</b> Deep Face Template Protection in the Wild</li>
+        <li><b>CVPR 2021</b> IronMask: Modular Architecture for Protecting Deep Face Template</li>
+      </ul>
+    </aside>
+  </div>
+</article>
+
+<article class="thread" id="certify">
+  <div class="thread-head">
+    <span class="num">03</span>
+    <h2><span class="ko">보증 · 막는 것이 아니라 증명하는 것</span><span class="en">Certify · Proving, not just resisting</span></h2>
+  </div>
+  <div class="thread-body">
+    <div class="prose">
+      <p><span class="ko">오늘의 공격을 막는 모델은 내일의 공격에 무너질 수 있습니다. <strong>Certified robustness</strong>는 이 군비 경쟁을 비켜갑니다. "반지름 r 안의 어떤 섭동도 판단을 뒤집을 수 없다"를 수학적으로 보장합니다. 그런데 표준 도구인 randomized smoothing은 분류 문제를 가정하고, 인식은 분류가 아니라 거리 공간 위의 문제입니다. 우리는 이 간극을 분석하고 인식 기하학에 맞는 보증 방법을 만듭니다.</span>
+         <span class="en">A model that resists today's attacks may fall to tomorrow's. <strong>Certified robustness</strong> sidesteps the arms race with a guarantee: no perturbation within radius r can flip the decision. But the standard tool, randomized smoothing, assumes classification, and recognition lives on a metric space. We analyze the gap and build certification that fits recognition geometry.</span></p>
+    </div>
+    <aside class="papers">
+      <p class="papers-label"><span class="ko">대표 논문</span><span class="en">Representative papers</span></p>
+      <ul>
+        <li><b>IEEE T-BIOM 2025</b> Towards Certifiably Robust Face Recognition: Analyses and Improvements</li>
+        <li><b>ECCV 2024</b> Towards Certifiably Robust Face Recognition</li>
+      </ul>
+    </aside>
+  </div>
+</article>
+
+<article class="thread" id="detect">
+  <div class="thread-head">
+    <span class="num">04</span>
+    <h2><span class="ko">탐지 · 생성형 AI 시대의 진짜와 가짜</span><span class="en">Detect · Real and fake in the generative era</span></h2>
+  </div>
+  <div class="thread-body">
+    <div class="prose">
+      <p><span class="ko">CLIP과 그 위에 지어진 vision-language 모델, 그리고 딥페이크 탐지기는 인식기와 같은 구면 기하학을 씁니다. 그래서 같은 약점을 물려받습니다. 우리는 픽셀 하나 건드리지 않고 프롬프트만 바꿔 이미지를 다듬어 탐지기의 결정 경계를 넘기는 방법을 보였고, 이제 그 반대편, 즉 이런 최악의 데이터를 학습에 써서 더 튼튼한 탐지기를 만드는 닫힌 고리를 만들고 있습니다.</span>
+         <span class="en">CLIP, the vision-language models built on it, and deepfake detectors share the recognizer's spherical geometry, and inherit its weaknesses. We showed that prompt-only refinement, without touching a pixel, drifts images across a detector's decision boundary. Now we work the other side: use such worst-case data to train detectors that are demonstrably harder to fool.</span></p>
+      <p><span class="ko">인접한 문제들도 같은 원시 연산으로 환원됩니다. 고차원 벡터의 cosine similarity를 안전하게 계산하는 것. RAG를 위한 privacy-preserving retrieval, fuzzy private set intersection이 여기서 자연스럽게 이어집니다.</span>
+         <span class="en">Adjacent problems reduce to the same primitive: securely computing cosine similarity between high-dimensional vectors. Privacy-preserving retrieval for RAG and fuzzy private set intersection follow naturally.</span></p>
+    </div>
+    <aside class="papers">
+      <p class="papers-label"><span class="ko">대표 논문</span><span class="en">Representative papers</span></p>
+      <ul>
+        <li><b>arXiv 2025</b> Naïve Exposure of Generative AI Capabilities Undermines Deepfake Detection</li>
+        <li><b>IEEE Access 2025</b> Doubly Efficient Fuzzy Private Set Intersection with Cosine Similarity</li>
+      </ul>
+    </aside>
+  </div>
+</article>
+
+<section class="join-band reveal">
+  <div>
+    <h2><span class="ko">이 중 하나라도 궁금하다면.</span><span class="en">If any of this made you curious.</span></h2>
+    <p><span class="ko">네 갈래 모두 학부생이 한 학기 안에 손댈 수 있는 작은 문제를 갖고 있습니다.</span><span class="en">Each thread has a small, well-defined problem an undergraduate can touch within a semester.</span></p>
+  </div>
+  <a class="btn primary" href="./join.html"><span class="ko">지원 안내 보기</span><span class="en">How to apply</span></a>
+</section>
+
+</main>
+
+<footer class="site-foot">
+  <div class="foot-grid">
+    <div>
+      <b>AI Security Lab</b><br>
+      <span class="ko">숙명여자대학교 소프트웨어학부<br>서울특별시 용산구 청파로47길 100 (04310)</span>
+      <span class="en">Division of Software, Sookmyung Women's University<br>100 Cheongpa-ro 47-gil, Yongsan-gu, Seoul 04310, Korea</span>
+    </div>
+    <div>
+      <a href="mailto:ksp0352@sookmyung.ac.kr">ksp0352@sookmyung.ac.kr</a><br>
+      <a href="tel:+82-2-710-9115">+82-2-710-9115</a><br>
+      <a href="https://sunpillkim.com">sunpillkim.com</a>
+    </div>
+    <div class="foot-nav">
+      <a href="./research.html"><span class="ko">연구</span><span class="en">Research</span></a>
+      <a href="./publications.html"><span class="ko">논문</span><span class="en">Publications</span></a>
+      <a href="./people.html"><span class="ko">구성원</span><span class="en">People</span></a>
+      <a href="./join.html"><span class="ko">지원</span><span class="en">Join</span></a>
+    </div>
+  </div>
+  <p class="copy">© 2026 AI Security Lab, Sookmyung Women's University.</p>
+</footer>
+
+<script src="./assets/js/site.js"></script>
+</body>
+</html>
