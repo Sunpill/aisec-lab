@@ -36,6 +36,18 @@
   }
   addEventListener('resize', size); size();
 
+  // Pointer: nearest visible point becomes a "query"; its angular neighbourhood
+  // (cos-similarity cap) lights up. Touch devices just get the rotation.
+  let mouse = null;
+  c.addEventListener('pointermove', e => { const b = c.getBoundingClientRect(); mouse = [e.clientX - b.left, e.clientY - b.top]; });
+  c.addEventListener('pointerleave', () => { mouse = null; });
+
+  // Only animate while on screen.
+  let visible = true;
+  if ('IntersectionObserver' in window) new IntersectionObserver(es => {
+    visible = es[0].isIntersecting; if (visible && !reduce) requestAnimationFrame(frame);
+  }).observe(c);
+
   function rot(v, a, b) {  // rotate around y by a, then x by b
     let [x, y, z] = v;
     let x1 = x * Math.cos(a) + z * Math.sin(a), z1 = -x * Math.sin(a) + z * Math.cos(a);
@@ -55,7 +67,7 @@
     ctx.strokeStyle = color; ctx.lineWidth = 1; ctx.setLineDash([3, 5]); ctx.stroke(); ctx.setLineDash([]);
   }
 
-  const ink = col('--ink') || '#1b1a2e', acc = col('--accent') || '#6d4cff', acc2 = col('--accent-2') || '#ff7a59';
+  const ink = col('--ink') || '#1f2321', acc = col('--accent') || '#1f6f6b', acc2 = col('--accent-2') || '#c88a3c';
   let a = 0.4, b = -0.35, last = 0;
 
   function frame(t) {
@@ -67,11 +79,24 @@
     ctx.strokeStyle = ink; ctx.globalAlpha = 0.08; ctx.lineWidth = 1; ctx.stroke(); ctx.globalAlpha = 1;
 
     // background points, front ones darker
-    for (const p of pts) {
-      const v = rot(p, a, b), [x, y] = proj(v), d = (v[2] + 1) / 2;
-      ctx.globalAlpha = 0.08 + d * 0.32;
-      ctx.fillStyle = ink;
-      ctx.beginPath(); ctx.arc(x, y, 0.8 + d * 1.2, 0, Math.PI * 2); ctx.fill();
+    const rp = pts.map(p => rot(p, a, b));
+    let q = -1;
+    if (mouse) {  // nearest front-facing point to the pointer
+      let best = 18 * 18;
+      rp.forEach((v, i) => { if (v[2] < 0) return; const [x, y] = proj(v), d2 = (x - mouse[0]) ** 2 + (y - mouse[1]) ** 2; if (d2 < best) { best = d2; q = i; } });
+    }
+    const COS = Math.cos(0.42);  // cap radius ~24 degrees
+    rp.forEach((v, i) => {
+      const [x, y] = proj(v), d = (v[2] + 1) / 2;
+      const inCap = q >= 0 && (v[0]*rp[q][0] + v[1]*rp[q][1] + v[2]*rp[q][2]) > COS;
+      ctx.globalAlpha = inCap ? 0.9 : 0.08 + d * 0.32;
+      ctx.fillStyle = inCap ? acc2 : ink;
+      ctx.beginPath(); ctx.arc(x, y, (inCap ? 1.6 : 0.8) + d * 1.2, 0, Math.PI * 2); ctx.fill();
+    });
+    if (q >= 0) {  // query point + its cap outline
+      const [x, y] = proj(rp[q]);
+      ctx.globalAlpha = 1; ctx.fillStyle = acc2; ctx.beginPath(); ctx.arc(x, y, 4, 0, Math.PI * 2); ctx.fill();
+      ctx.strokeStyle = acc2; ctx.globalAlpha = 0.5; ctx.beginPath(); ctx.arc(x, y, 10, 0, Math.PI * 2); ctx.stroke();
     }
     ctx.globalAlpha = 1;
 
@@ -97,7 +122,8 @@
       ctx.globalAlpha = 1;
     });
 
-    if (!reduce) requestAnimationFrame(frame);
+    if (!reduce && visible) requestAnimationFrame(frame);
   }
   requestAnimationFrame(frame);
+  if (reduce) c.addEventListener('pointermove', () => requestAnimationFrame(frame));
 })();
