@@ -22,6 +22,9 @@
   --band-bg:    #1b1a2e;
   --band-fg:    #faf9f6;
   --band-mute:  #b9b8cc;
+  --id-a:       #5646d6;
+  --id-b:       #f0653f;
+  --id-c:       #c9931f;
 
   --sans: 'Pretendard Variable', Pretendard, 'Inter', -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', 'Noto Sans KR', system-ui, sans-serif;
   --serif: 'Fraunces', 'Iowan Old Style', Georgia, serif;
@@ -41,6 +44,7 @@
     --line: #2a2a3d; --line-2: #383850; --accent: #9d8fff; --accent-ink: #b7acff;
     --accent-soft: #24224a; --accent-2: #ff8b66; --accent-2-soft: #3b271f; --top: #3a3320; --top-ink: #ffd66b;
     --band-bg: #22214a; --band-fg: #ecebf3; --band-mute: #b0aecd;
+    --id-a: #9d8fff; --id-b: #ff8b66; --id-c: #e8b75a;
     --shadow: 0 1px 2px rgba(0,0,0,.3), 0 12px 32px -12px rgba(0,0,0,.5);
     color-scheme: dark;
   }
@@ -50,6 +54,7 @@
     --line: #2a2a3d; --line-2: #383850; --accent: #9d8fff; --accent-ink: #b7acff;
     --accent-soft: #24224a; --accent-2: #ff8b66; --accent-2-soft: #3b271f; --top: #3a3320; --top-ink: #ffd66b;
     --band-bg: #22214a; --band-fg: #ecebf3; --band-mute: #b0aecd;
+    --id-a: #9d8fff; --id-b: #ff8b66; --id-c: #e8b75a;
     --shadow: 0 1px 2px rgba(0,0,0,.3), 0 12px 32px -12px rgba(0,0,0,.5);
     color-scheme: dark;
 }
