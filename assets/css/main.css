@@ -182,7 +182,15 @@ section, .thread { max-width: var(--wrap); margin: 0 auto; padding: clamp(64px, 
 .vcard svg { width: 80px; height: 80px; display: block; border-radius: 10px; background: var(--accent-soft); color: var(--accent-ink); }
 .vcard b { display: block; color: var(--ink); font-weight: 600; margin-bottom: 2px; }
 .vcard .en, .vcard .ko { display: block; }
-@media (max-width: 720px) { .vcard { width: min(320px, calc(100vw - 2 * var(--gutter))); } }
+/* Mobile: anchor the card to the whole list so it never leaves the viewport,
+   and push the next section down while one is open. */
+@media (max-width: 720px) {
+  .venues ul { position: relative; transition: margin-bottom .25s var(--ease); }
+  .venues li { position: static; }
+  .vcard { left: 0; right: 0; width: auto; top: calc(100% + 12px); }
+  .venues li:nth-last-child(-n+2) .vcard { left: 0; right: 0; }
+  .venues ul:has(li.open), .venues ul:has(li:hover) { margin-bottom: 150px; }
+}
 
 /* ---------- pillars ---------- */
 .pillar-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
