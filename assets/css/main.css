@@ -160,7 +160,10 @@ section, .thread { max-width: var(--wrap); margin: 0 auto; padding: clamp(64px, 
 .hero .lede { margin-bottom: 34px; }
 .actions { display: flex; flex-wrap: wrap; gap: 12px; }
 .hero-art { position: relative; aspect-ratio: 1; border-radius: 28px; background: var(--surface); border: 1px solid var(--line); box-shadow: var(--shadow); overflow: hidden; }
-.hero-art canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
+.hero-art canvas { position: absolute; inset: 0; width: 100%; height: 100%; touch-action: none; cursor: grab; }
+.hero-art canvas:active { cursor: grabbing; }
+.art-hint { position: absolute; top: 14px; right: 14px; font-size: 12px; font-weight: 600; letter-spacing: .02em; color: var(--accent-ink); padding: 6px 10px; border-radius: 999px; background: var(--accent-soft); pointer-events: none; transition: opacity .4s var(--ease); }
+.hero-art.dragged .art-hint { opacity: 0; }
 .art-caption { position: absolute; left: 18px; right: 18px; bottom: 16px; font-size: 13px; line-height: 1.5; color: var(--mute); padding: 10px 14px; border-radius: 12px; background: color-mix(in srgb, var(--surface) 80%, transparent); backdrop-filter: blur(8px); }
 
 /* ---------- venues strip ---------- */

@@ -1,10 +1,12 @@
-// Hero visual: points on a slowly rotating sphere (a "representation space"),
-// with a few identity clusters and the angular arcs between them.
+// Hero visual: points on a sphere (a "representation space") with a few identity
+// clusters and the angular arcs between them. Drag to spin it (with inertia);
+// point or touch a spot and its cosine-similarity neighbourhood lights up.
 (function () {
   const c = document.getElementById('hero-canvas');
   if (!c) return;
   const ctx = c.getContext('2d');
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const coarse = matchMedia('(pointer: coarse)').matches;   // touch screens
   const css = getComputedStyle(document.documentElement);
   const col = name => css.getPropertyValue(name).trim();
 
@@ -36,16 +38,37 @@
   }
   addEventListener('resize', size); size();
 
-  // Pointer: nearest visible point becomes a "query"; its angular neighbourhood
-  // (cos-similarity cap) lights up. Touch devices just get the rotation.
-  let mouse = null;
-  c.addEventListener('pointermove', e => { const b = c.getBoundingClientRect(); mouse = [e.clientX - b.left, e.clientY - b.top]; });
-  c.addEventListener('pointerleave', () => { mouse = null; });
+  // ---- interaction: drag to spin, point/touch to highlight ----
+  const K = 0.0055;                 // radians per pixel of drag
+  const SNAP = coarse ? 36 : 18;    // px: how close the pointer must be to a point
+  const CAP = coarse ? 0.5 : 0.42;  // cap radius in radians (~29° / ~24°)
+  let a = 0.4, b = -0.35, va = 0, vb = 0;
+  let mouse = null, dragging = false, lastP = null;
+
+  const local = e => { const r = c.getBoundingClientRect(); return [e.clientX - r.left, e.clientY - r.top]; };
+  c.addEventListener('pointerdown', e => {
+    c.setPointerCapture(e.pointerId);
+    dragging = true; lastP = mouse = local(e); va = vb = 0;
+    c.parentElement.classList.add('dragged');
+  });
+  c.addEventListener('pointermove', e => {
+    mouse = local(e);
+    if (!dragging) return;
+    const dx = mouse[0] - lastP[0], dy = mouse[1] - lastP[1];
+    a += dx * K; b = clamp(b + dy * K);
+    va = dx * K; vb = dy * K;         // remembered for inertia
+    lastP = mouse;
+  });
+  const end = () => { dragging = false; lastP = null; };
+  c.addEventListener('pointerup', end);
+  c.addEventListener('pointercancel', end);
+  c.addEventListener('pointerleave', () => { if (!dragging) mouse = null; });
+  function clamp(x) { return Math.max(-1.3, Math.min(1.3, x)); }
 
   // Only animate while on screen.
   let visible = true;
   if ('IntersectionObserver' in window) new IntersectionObserver(es => {
-    visible = es[0].isIntersecting; if (visible && !reduce) requestAnimationFrame(frame);
+    visible = es[0].isIntersecting; if (visible) requestAnimationFrame(frame);
   }).observe(c);
 
   function rot(v, a, b) {  // rotate around y by a, then x by b
@@ -56,48 +79,70 @@
   }
   const proj = v => [W / 2 + v[0] * R, H / 2 - v[1] * R];
 
-  function arc(a, b, color) {  // great-circle arc between two unit vectors
+  function arc(p, q, color) {  // great-circle arc between two unit vectors
     ctx.beginPath();
     for (let i = 0; i <= 24; i++) {
-      const t = i / 24, w = Math.acos(Math.max(-1, Math.min(1, a[0]*b[0]+a[1]*b[1]+a[2]*b[2])));
+      const t = i / 24, w = Math.acos(Math.max(-1, Math.min(1, p[0]*q[0]+p[1]*q[1]+p[2]*q[2])));
       const s1 = Math.sin((1 - t) * w) / Math.sin(w), s2 = Math.sin(t * w) / Math.sin(w);
-      const p = proj([a[0]*s1+b[0]*s2, a[1]*s1+b[1]*s2, a[2]*s1+b[2]*s2]);
-      i ? ctx.lineTo(p[0], p[1]) : ctx.moveTo(p[0], p[1]);
+      const s = proj([p[0]*s1+q[0]*s2, p[1]*s1+q[1]*s2, p[2]*s1+q[2]*s2]);
+      i ? ctx.lineTo(s[0], s[1]) : ctx.moveTo(s[0], s[1]);
     }
     ctx.strokeStyle = color; ctx.lineWidth = 1; ctx.setLineDash([3, 5]); ctx.stroke(); ctx.setLineDash([]);
   }
 
-  let ink, acc, acc2, a = 0.4, b = -0.35;
+  function capOutline(q, theta, color) {  // small circle on the sphere at angle theta around q
+    const u = norm(Math.abs(q[1]) < 0.9 ? [q[2], 0, -q[0]] : [0, q[2], -q[1]]);   // ⊥ q
+    const w = [q[1]*u[2]-q[2]*u[1], q[2]*u[0]-q[0]*u[2], q[0]*u[1]-q[1]*u[0]];    // q × u
+    const ct = Math.cos(theta), st = Math.sin(theta);
+    ctx.beginPath();
+    for (let i = 0; i <= 48; i++) {
+      const ph = i / 48 * Math.PI * 2, cp = Math.cos(ph), sp = Math.sin(ph);
+      const v = [ct*q[0] + st*(cp*u[0] + sp*w[0]), ct*q[1] + st*(cp*u[1] + sp*w[1]), ct*q[2] + st*(cp*u[2] + sp*w[2])];
+      const s = proj(v);
+      i ? ctx.lineTo(s[0], s[1]) : ctx.moveTo(s[0], s[1]);
+    }
+    ctx.strokeStyle = color; ctx.lineWidth = 1.5; ctx.setLineDash([4, 4]); ctx.stroke(); ctx.setLineDash([]);
+  }
 
-  function frame(t) {
+  let ink, acc, acc2;
+
+  function frame() {
     // re-read each frame so the light/dark toggle recolors the sphere
     ink = col('--ink') || '#1b1a2e'; acc = col('--accent') || '#5646d6'; acc2 = col('--accent-2') || '#f0653f';
-    if (!reduce) { a += 0.0016; b = -0.35 + Math.sin(t / 9000) * 0.12; }
+
+    if (!dragging) {                       // inertia, then settle into the idle spin
+      a += va; b = clamp(b + vb);
+      va *= 0.95; vb *= 0.95;
+      if (!reduce) a += 0.0016;
+    }
     ctx.clearRect(0, 0, W, H);
 
     // faint sphere outline
     ctx.beginPath(); ctx.arc(W / 2, H / 2, R, 0, Math.PI * 2);
     ctx.strokeStyle = ink; ctx.globalAlpha = 0.08; ctx.lineWidth = 1; ctx.stroke(); ctx.globalAlpha = 1;
 
-    // background points, front ones darker
+    // background points; the one nearest the pointer becomes the query
     const rp = pts.map(p => rot(p, a, b));
     let q = -1;
-    if (mouse) {  // nearest front-facing point to the pointer
-      let best = 18 * 18;
+    if (mouse) {
+      let best = SNAP * SNAP;
       rp.forEach((v, i) => { if (v[2] < 0) return; const [x, y] = proj(v), d2 = (x - mouse[0]) ** 2 + (y - mouse[1]) ** 2; if (d2 < best) { best = d2; q = i; } });
     }
-    const COS = Math.cos(0.42);  // cap radius ~24 degrees
+    const COS = Math.cos(CAP);
     rp.forEach((v, i) => {
       const [x, y] = proj(v), d = (v[2] + 1) / 2;
       const inCap = q >= 0 && (v[0]*rp[q][0] + v[1]*rp[q][1] + v[2]*rp[q][2]) > COS;
-      ctx.globalAlpha = inCap ? 0.9 : 0.08 + d * 0.32;
+      ctx.globalAlpha = inCap ? 0.95 : 0.08 + d * 0.32;
       ctx.fillStyle = inCap ? acc2 : ink;
-      ctx.beginPath(); ctx.arc(x, y, (inCap ? 1.6 : 0.8) + d * 1.2, 0, Math.PI * 2); ctx.fill();
+      ctx.beginPath(); ctx.arc(x, y, (inCap ? 1.8 : 0.8) + d * 1.2, 0, Math.PI * 2); ctx.fill();
     });
-    if (q >= 0) {  // query point + its cap outline
+    if (q >= 0) {  // query point, its glow, and the cap boundary
       const [x, y] = proj(rp[q]);
-      ctx.globalAlpha = 1; ctx.fillStyle = acc2; ctx.beginPath(); ctx.arc(x, y, 4, 0, Math.PI * 2); ctx.fill();
-      ctx.strokeStyle = acc2; ctx.globalAlpha = 0.5; ctx.beginPath(); ctx.arc(x, y, 10, 0, Math.PI * 2); ctx.stroke();
+      const g = ctx.createRadialGradient(x, y, 0, x, y, 28);
+      g.addColorStop(0, acc2); g.addColorStop(1, 'rgba(0,0,0,0)');
+      ctx.globalAlpha = 0.35; ctx.fillStyle = g; ctx.beginPath(); ctx.arc(x, y, 28, 0, Math.PI * 2); ctx.fill();
+      ctx.globalAlpha = 0.8; capOutline(rp[q], CAP, acc2);
+      ctx.globalAlpha = 1; ctx.fillStyle = acc2; ctx.beginPath(); ctx.arc(x, y, 5, 0, Math.PI * 2); ctx.fill();
     }
     ctx.globalAlpha = 1;
 
@@ -123,8 +168,7 @@
       ctx.globalAlpha = 1;
     });
 
-    if (!reduce && visible) requestAnimationFrame(frame);
+    if (visible) requestAnimationFrame(frame);
   }
   requestAnimationFrame(frame);
-  if (reduce) c.addEventListener('pointermove', () => requestAnimationFrame(frame));
 })();
