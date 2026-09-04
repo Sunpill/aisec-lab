@@ -31,12 +31,15 @@
     for (let k = 0; k < 7; k++) s.push(norm([cn[0] + rnd(.16), cn[1] + rnd(.16), cn[2] + rnd(.16)]));
     return s;
   });
-  // Each point's verdict: nearest center (region), and how clear-cut it is (margin).
+  // Each point's verdict: nearest center (region), how clear-cut it is (margin),
+  // and "no one" (region -1) when it is more than 90° from every identity.
+  const THRESH = Math.cos(Math.PI / 2);
   const region = [], margin = [];
   for (const p of pts) {
     const s = centers.map(cn => dot(p, cn)).map((v, i) => [v, i]).sort((x, y) => y[0] - x[0]);
-    region.push(s[0][1]); margin.push(s[0][0] - s[1][0]);
+    region.push(s[0][0] > THRESH ? s[0][1] : -1); margin.push(s[0][0] - s[1][0]);
   }
+  const lang = () => document.documentElement.getAttribute('data-lang') || 'ko';
 
   let W, H, R, dpr;
   function size() {
@@ -115,7 +118,7 @@
   }
 
   function label(text, x, y, color, size) {
-    ctx.font = `600 ${size}px ${col('--mono') || 'monospace'}`;
+    ctx.font = `600 ${size}px ${col('--mono') || 'monospace'}, ${col('--sans') || 'sans-serif'}`;
     ctx.textBaseline = 'middle';
     const w = ctx.measureText(text).width + 12;
     ctx.globalAlpha = 0.92; ctx.fillStyle = col('--surface') || '#fff';
@@ -123,10 +126,10 @@
     ctx.globalAlpha = 1; ctx.fillStyle = color; ctx.fillText(text, x + 6, y + 0.5);
   }
 
-  let ink, idc;
+  let ink, mute, idc;
 
   function frame() {
-    ink = col('--ink') || '#1b1a2e';
+    ink = col('--ink') || '#1b1a2e'; mute = col('--mute') || '#7d7c90';
     idc = [col('--id-a') || '#5646d6', col('--id-b') || '#f0653f', col('--id-c') || '#c9931f'];
 
     if (!dragging) {
@@ -150,8 +153,9 @@
     rp.forEach((v, i) => {
       const [x, y] = proj(v), d = (v[2] + 1) / 2;
       const inCap = q >= 0 && dot(v, rp[q]) > COS;
-      ctx.fillStyle = idc[region[i]];
-      ctx.globalAlpha = inCap ? 0.95 : 0.10 + d * 0.38;
+      const known = region[i] >= 0;
+      ctx.fillStyle = known ? idc[region[i]] : mute;
+      ctx.globalAlpha = inCap ? (known ? 0.95 : 0.7) : (known ? 0.10 + d * 0.38 : 0.06 + d * 0.22);
       ctx.beginPath(); ctx.arc(x, y, (inCap ? 1.9 : 0.9) + d * 1.3, 0, Math.PI * 2); ctx.fill();
     });
     ctx.globalAlpha = 1;
@@ -160,17 +164,20 @@
 
     // query: glow, neighbourhood outline, arc to its identity, verdict label
     if (q >= 0) {
-      const r = region[q], color = idc[r], [x, y] = proj(rp[q]);
-      const ambiguous = margin[q] < 0.06;
+      const r = region[q], known = r >= 0, color = known ? idc[r] : mute, [x, y] = proj(rp[q]);
+      const ambiguous = known && margin[q] < 0.06;
       const g = ctx.createRadialGradient(x, y, 0, x, y, 30);
       g.addColorStop(0, color); g.addColorStop(1, 'rgba(0,0,0,0)');
       ctx.globalAlpha = 0.35; ctx.fillStyle = g; ctx.beginPath(); ctx.arc(x, y, 30, 0, Math.PI * 2); ctx.fill();
       ctx.globalAlpha = 0.8; capOutline(rp[q], CAP, color);
-      ctx.globalAlpha = 0.9; arc(rp[q], cr[r], color, [2, 4]);
+      if (known) { ctx.globalAlpha = 0.9; arc(rp[q], cr[r], color, [2, 4]); }
       ctx.globalAlpha = 1; ctx.fillStyle = color; ctx.beginPath(); ctx.arc(x, y, 5, 0, Math.PI * 2); ctx.fill();
-      const deg = Math.round(Math.acos(Math.max(-1, Math.min(1, dot(pts[q], centers[r])))) * 180 / Math.PI);
-      const second = centers.map((cn, i) => [dot(pts[q], cn), i]).sort((u, v) => v[0] - u[0])[1][1];
-      const text = ambiguous ? `${NAMES[r]}? ${NAMES[second]}? · ${deg}°` : `→ ${NAMES[r]} · ${deg}°`;
+      const order = centers.map((cn, i) => [dot(pts[q], cn), i]).sort((u, v) => v[0] - u[0]);
+      const deg = Math.round(Math.acos(Math.max(-1, Math.min(1, order[0][0]))) * 180 / Math.PI);
+      const none = lang() === 'ko' ? '아무도 아님' : 'no one';
+      const text = !known ? `→ ${none} · ${deg}°`
+                 : ambiguous ? `${NAMES[r]}? ${NAMES[order[1][1]]}? · ${deg}°`
+                 : `→ ${NAMES[r]} · ${deg}°`;
       label(text, x + 12, y - 16, color, 12);
     }
 
