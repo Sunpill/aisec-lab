@@ -7,6 +7,8 @@
   const root = document.documentElement;
 
   function pickDefault() {
+    const q = new URLSearchParams(location.search).get('lang');   // ?lang=en for shareable links
+    if (q === 'ko' || q === 'en') return q;
     try { const s = localStorage.getItem(KEY); if (s) return s; } catch (e) {}
     return (navigator.language || '').toLowerCase().startsWith('ko') ? 'ko' : 'en';
   }
