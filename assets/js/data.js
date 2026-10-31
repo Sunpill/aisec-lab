@@ -3,6 +3,16 @@
 
 const PUBS = [
   {
+    "title": "General Security Analysis for Face Template Protection Methods from Cryptographic Hash Functions",
+    "authors": "Seunghun Paik, Minsu Kim, <b>Sunpill Kim</b>, Jae Hong Seo",
+    "venue": "IEEE Transactions on Information Forensics and Security",
+    "venue_short": "IEEE TIFS 2026",
+    "year": 2026,
+    "category": "journal",
+    "tier": "top",
+    "note": "accepted · to appear"
+  },
+  {
     "title": "Casting the Net! Revisiting MasterFace Impersonation Attacks",
     "authors": "Seunghun Paik*, <b>Sunpill Kim</b>*, Chanwoo Hwang, Jae Hong Seo",
     "venue": "ACM Conference on Computer and Communications Security",
@@ -179,6 +189,13 @@ const PUBS = [
 ];
 
 const NEWS = [
+  {
+    "date": "2026-10-31",
+    "venue": "IEEE TIFS",
+    "tier": "top",
+    "title": "General Security Analysis for Face Template Protection Methods from Cryptographic Hash Functions",
+    "authors": "S. Paik, M. Kim, <b>S. Kim</b>, J. H. Seo"
+  },
   {
     "date": "2026-09-01",
     "body": "Joined the <strong>Division of Software</strong> at <strong>Sookmyung Women's University</strong> as an <strong>assistant professor</strong>."
