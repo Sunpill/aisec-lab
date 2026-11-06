@@ -314,10 +314,8 @@ section, .thread { max-width: var(--wrap); margin: 0 auto; padding: clamp(64px, 
 .intern > div > span { display: block; font-size: 14px; color: var(--ink-2); line-height: 1.45; }
 .intern .since { font-family: var(--mono); font-size: 12px; color: var(--accent-ink); margin-top: 4px; }
 .intern .since .ko { font-family: var(--sans); font-weight: 600; }
-.intern.soon { border-style: dashed; border-color: var(--line-2); background: transparent; }
-.intern.soon .silhouette { display: grid; place-items: center; color: var(--mute); background: var(--paper); border: 1px dashed var(--line-2); }
-.intern.soon .silhouette svg { width: 56px; height: 56px; }
-.intern.soon .since { color: var(--mute); }
+.intern .silhouette { display: grid; place-items: center; color: var(--mute); background: var(--accent-soft); }
+.intern .silhouette svg { width: 56px; height: 56px; }
 .members { border-top: 1px solid var(--line); }
 .member-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; max-width: 760px; }
 .member { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 6px; padding: 32px 20px 26px; border-radius: var(--r); background: var(--surface); border: 1px solid var(--line); }
