@@ -190,6 +190,10 @@ const PUBS = [
 
 const NEWS = [
   {
+    "date": "2026-11-01",
+    "body": "<span class=\"ko\"><strong>박서정</strong>, <strong>황지민</strong> 두 명이 인턴으로 연구실에 합류했습니다.</span><span class=\"en\"><strong>Seojeong Park</strong> and <strong>Jimin Hwang</strong> joined the lab as interns.</span>"
+  },
+  {
     "date": "2026-10-31",
     "venue": "IEEE TIFS",
     "tier": "top",
